@@ -11,21 +11,28 @@ from pathlib import Path
 
 
 EXPECTED_GENEFORMER_COMMIT = "f45a6c7"
+# TODO (post-split, not yet filled in): these constants were the NSCLC
+# experiment's real hashes/row-counts, inherited by this file when it was
+# duplicated into the SCLC repo. Do NOT reuse the NSCLC values -- they check
+# the wrong model/data. Populate with real SCLC values from an actual
+# inventory/checksum run (migration/scripts/inventory_source.sh) before
+# relying on this script; until then the empty dicts below make check_hash/
+# check_stats no-ops rather than silently asserting something false.
 CRITICAL_HASHES = {
-    "Geneformer-V2-104M/model.safetensors": "fff5cba29ddd8792991fa77b4872246fbe548a178cebda3775cdc72b67780e7f",
-    "KD/tcell_luad_lusc_normal_luscmax7000_finetune/runs/260717_geneformer_cellClassifier_tcell_luad_lusc_normal_luscmax7000/ksplit1/model.safetensors": "039509ddf56121e5320ca24079aeaf05d6aeb57505e3d1e4d368b7744a190c0e",
+    # "Geneformer-V2-104M/model.safetensors": "<sha256>",
+    # "KD/sclc_luad_normal_htan_finetune/runs/<run-id>/model.safetensors": "<sha256>",
 }
 OPTIONAL_ATLAS = (
-    "KD/data/nsclc/nsclc_integrated.h5ad",
-    "141db65b76b1e34f895131e36c74cd829db05fc037f8cd2f422c2960a5a266cd",
+    "KD/sclc_luad_normal_htan_finetune/data/htan_sclc_luad_normal_tcells_prepared.h5ad",
+    "",  # <sha256>, TODO
 )
 EXPECTED_STATS_ROWS = {
-    "heldout_allgene_lusc_to_luad.csv": 11242,
-    "heldout_allgene_lusc_to_normal.csv": 11242,
-    "heldout_allgene_luad_to_lusc.csv": 13458,
-    "heldout_allgene_luad_to_normal.csv": 13458,
-    "heldout_allgene_normal_to_luad.csv": 14923,
-    "heldout_allgene_normal_to_lusc.csv": 14923,
+    # "heldout_allgene_sclc_to_luad.csv": <rows>,
+    # "heldout_allgene_luad_to_sclc.csv": <rows>,
+    # "heldout_allgene_sclc_to_normal.csv": <rows>,
+    # "heldout_allgene_normal_to_sclc.csv": <rows>,
+    # "heldout_allgene_luad_to_normal.csv": <rows>,
+    # "heldout_allgene_normal_to_luad.csv": <rows>,
 }
 
 
@@ -65,8 +72,11 @@ def check_manifest(root: Path, manifest: Path) -> None:
 
 def check_stats(root: Path) -> None:
     stats = root / (
-        "KD/tcell_luad_lusc_normal_luscmax7000_heldout_allgene_perturbation/stats"
+        "KD/sclc_luad_normal_htan_heldout_allgene_perturbation/stats"
     )
+    if not EXPECTED_STATS_ROWS:
+        print("SKIP stats: EXPECTED_STATS_ROWS not yet populated for this experiment")
+        return
     for filename, expected_rows in EXPECTED_STATS_ROWS.items():
         path = stats / filename
         if not path.is_file():
@@ -101,10 +111,9 @@ def check_git(root: Path) -> None:
 
 def check_monitor(root: Path) -> None:
     required = [
-        "current_workflow/monitoring/GPU_PROGRESS_REPORT.md",
-        "current_workflow/perturbation_statistics/perturbation_statistics_report.html",
-        "current_workflow/perturbation_statistics/perturbation_statistics.ipynb",
-        "current_workflow/perturbation_statistics/evaluation/README.md",
+        "sclc_validation/primary_test_perturbation/reports/primary_test_perturbation_report.html",
+        "sclc_validation/primary_test_perturbation/STATUS_2026-08-04.md",
+        "sclc_validation/VALIDATION_REPORT.md",
     ]
     for relative in required:
         path = root / relative
@@ -147,7 +156,9 @@ def main() -> None:
     for relative, expected in CRITICAL_HASHES.items():
         check_hash(geneformer_root, relative, expected)
     atlas_path = geneformer_root / OPTIONAL_ATLAS[0]
-    if atlas_path.exists():
+    if not OPTIONAL_ATLAS[1]:
+        print("SKIP optional atlas hash: expected hash not yet populated for this experiment")
+    elif atlas_path.exists():
         check_hash(geneformer_root, *OPTIONAL_ATLAS)
     else:
         print("SKIP optional atlas hash: atlas not transferred")
