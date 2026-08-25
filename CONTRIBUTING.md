@@ -43,10 +43,10 @@ Run the checks that apply to your contribution before opening a pull request:
 ```bash
 # Catch Python syntax errors without requiring the full scientific environment.
 python -m compileall \
-  current_workflow \
   geneformer_uv_setup \
   migration \
-  sclc_validation
+  sclc_validation \
+  tools
 
 # In a bootstrapped Geneformer workspace, verify the environment.
 uv run --frozen python scripts/smoke_test.py \
