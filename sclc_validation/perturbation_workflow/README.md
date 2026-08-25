@@ -3,9 +3,10 @@
 **Compute environment:** NVIDIA GB10 (DGX Spark), Geneformer V2 104M
 **Disease states:** small cell lung carcinoma (SCLC), lung adenocarcinoma (LUAD), normal
 
-This is the SCLC-inclusive counterpart to
-[`current_workflow/`](../../current_workflow/README.md)'s LUAD/LUSC/normal T-cell
-classifier and all-gene perturbation screen. It follows the same donor-aware
+This is the SCLC-inclusive counterpart to the NSCLC line of work's LUAD/LUSC/normal
+T-cell classifier and all-gene perturbation screen, now split into its own repo:
+[`geneformer-nsclc-tcell`](https://github.com/Kays3/geneformer-nsclc-tcell). It
+follows the same donor-aware
 design (donor-disjoint splitting, training-cells-only reference centroids,
 shard-checkpointed execution) but on the HTAN/CELLxGENE SCLC cohort identified
 by [`sclc_validation/audit/`](../audit/README.md), and adds an in-silico

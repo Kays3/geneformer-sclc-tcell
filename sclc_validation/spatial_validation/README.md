@@ -38,7 +38,7 @@ figures/                 tissue panel and forest plot with 95% CIs
 Run:
 
 ```bash
-/Users/kaisardauyey/workspace/research1/.venv/bin/python spatial_validation.py
+uv run --with scanpy --with anndata --with pandas --with scipy --with matplotlib spatial_validation.py
 uv run --with matplotlib --with pandas --with pillow plot_spatial_tissue_panel.py
 ```
 
