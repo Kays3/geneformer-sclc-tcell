@@ -1,12 +1,14 @@
 # Changelog
 
 All notable changes to this repository are recorded here. The format follows
-[Keep a Changelog](https://keepachangelog.com/en/1.1.0/). This repository has no
-tagged releases yet; everything below is unreleased.
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions follow
+[Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-First changelog. It covers the full history from the initial commit
+## [0.1.0] - 2026-09-23
+
+First versioned release. It covers the full history from the initial commit
 (2026-07-17) through the merge of `immune-axis-test` into `main` (2026-09-23).
 
 ### Added
@@ -75,3 +77,6 @@ First changelog. It covers the full history from the initial commit
   on the NAS at `thinkstation2:/mnt/nas/kaisar/geneformer-sclc-tcell/` (see
   `TRANSFER_MANIFEST.sha256` there). Clones made before that date still hold
   the old commit IDs and both files.
+
+[Unreleased]: https://github.com/Kays3/geneformer-sclc-tcell/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/Kays3/geneformer-sclc-tcell/releases/tag/v0.1.0
