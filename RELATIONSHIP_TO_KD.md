@@ -5,6 +5,10 @@ SCLC Geneformer workflow. This repository contains version-controlled methods,
 validation, reporting, and migration tools; it reads selected KD datasets,
 model checkpoints, statistics, and perturbation outputs.
 
+**`sclc_validation/` here is a frozen copy (as of 2026-08-25).** The maintained tree is
+[`geneformer-lung-tcell/sclc_validation`](https://github.com/Kays3/geneformer-lung-tcell/tree/main/sclc_validation);
+see [`sclc_validation/FROZEN.md`](sclc_validation/FROZEN.md).
+
 The large files are intentionally outside Git in:
 
 ```text
